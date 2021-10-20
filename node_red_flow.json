@@ -1,0 +1,1013 @@
+[
+    {
+        "id": "fbfa534189e69947",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9ad993e1f2056c7e",
+        "type": "mqtt in",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "topic": "/DTH2/msg",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "60e7a74225d5784a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "1791daebcfce8264",
+                "0910cc7f4b23b71b",
+                "35fa3d57ae6d3ca0",
+                "c91ecf725c3627ce",
+                "a8338c35b4da36c8",
+                "145d9d2aadc1957e",
+                "4dc222478eb06f7b",
+                "04e1e10b30c4296d",
+                "65d98677f4d6c22c",
+                "cf7bdc3611b69372",
+                "663101630517de12",
+                "d2f276a99cb03a44",
+                "41ae02c007b4a18d",
+                "63fc80182ed746a4",
+                "d0b4d05d09e5b2dc"
+            ]
+        ]
+    },
+    {
+        "id": "1791daebcfce8264",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "time",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 10800000+p[\"time\"]*1000;\nmsg.payload = (new Date(utc)).toUTCString();\nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload});\n//node.status({fill:\"green\",shape:\"ring\",text:utc});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0910cc7f4b23b71b",
+        "type": "debug",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "35fa3d57ae6d3ca0",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "time UTC",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nmsg.payload =  p[\"time\"];\nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c91ecf725c3627ce",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Bat",
+        "func": "if (msg.payload[\"DTH\"]) saturated=true\nelse saturated=false\n\nmsg.payload = [\n   {bat: msg.payload[\"data\"][2] } \n  ]\n    \nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload[0].bat/1023*3.3*32/22*1.05});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 360,
+        "wires": [
+            [
+                "5278e1dda2e28999"
+            ]
+        ]
+    },
+    {
+        "id": "a8338c35b4da36c8",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Temp",
+        "func": "if (msg.payload[\"DTH\"]) saturated=true\nelse saturated=false\n\nmsg.payload = [\n   {Temp: msg.payload[\"data\"][0] } \n  ]\n    \nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload[0].Temp});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 420,
+        "wires": [
+            [
+                "4fe713594d270291"
+            ]
+        ]
+    },
+    {
+        "id": "145d9d2aadc1957e",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Humidity",
+        "func": "if (msg.payload[\"DTH\"]) saturated=true\nelse saturated=false\n\nmsg.payload = [\n   {Humidity: msg.payload[\"data\"][1] } \n  ]\n    \nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload[0].Humidity});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 480,
+        "wires": [
+            [
+                "1e57c3c4ee8a0793"
+            ]
+        ]
+    },
+    {
+        "id": "4dc222478eb06f7b",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Day",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 10800000+p[\"time\"]*1000;\nvar d_=new Date(utc)\nvar day = d_.getDate();\n\nnode.status({fill:\"green\",shape:\"ring\",text:day});\n//node.status({fill:\"green\",shape:\"ring\",text:utc});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "04e1e10b30c4296d",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "time23",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 10800000+p[\"time\"]*1000;\nvar dt=new Date(utc);\n\nvar Monat = dt.getMonth() + 1;\nvar Tag = dt.getDate();\nvar Jahr = dt.getFullYear();\nvar Stunde = dt.getHours();\nvar Minute = dt.getMinutes();\nvar Sekunde = dt.getSeconds();\n\nmsg.payload = Tag+'-'+Monat+'-'+Jahr+' / '+Stunde+':'+Minute+':'+Sekunde;\n\nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload});\n//node.status({fill:\"green\",shape:\"ring\",text:utc});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "65d98677f4d6c22c",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Data",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 0*10800000+p[\"time\"]*1000;\n//msg.payload = (new Date(utc)).toUTCString();\n\nvar batt= msg.payload[\"data\"][2];\n\nmsg.payload = {\n    \"timestamp\": utc, \n    \"temperature\": msg.payload[\"data\"][0],\n    \"humidity\": msg.payload[\"data\"][1],\n    \"battery\": batt/1023*3.3*32/22*1.05 \n} \n  \n  \nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 560,
+        "wires": [
+            [
+                "f733807b8ed7bb37",
+                "50be857081dd6d46"
+            ]
+        ]
+    },
+    {
+        "id": "f733807b8ed7bb37",
+        "type": "debug",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "cf7bdc3611b69372",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Month",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 10800000+p[\"time\"]*1000;\nvar d_=new Date(utc);\nvar Month = d_.getMonth() + 1;\n\nnode.status({fill:\"green\",shape:\"ring\",text:Month});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "663101630517de12",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Year",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 10800000+p[\"time\"]*1000;\nvar d_=new Date(utc);\nvar Year = d_.getFullYear();\n\nnode.status({fill:\"green\",shape:\"ring\",text:Year});\n//node.status({fill:\"green\",shape:\"ring\",text:utc});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d2f276a99cb03a44",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Hour",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= p[\"time\"]*1000;\nvar d_=new Date(utc)\nvar Hour = d_.getHours();\n\nnode.status({fill:\"green\",shape:\"ring\",text:Hour});\n//node.status({fill:\"green\",shape:\"ring\",text:utc});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41ae02c007b4a18d",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Minutes",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 10800000+p[\"time\"]*1000;\nvar d_=new Date(utc);\nvar Minutes = d_.getMinutes();\n\nnode.status({fill:\"green\",shape:\"ring\",text:Minutes});\n//node.status({fill:\"green\",shape:\"ring\",text:utc});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63fc80182ed746a4",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Seconds",
+        "func": "p =msg.payload;\n//node.log(typeof p);\nvar utc= 10800000+p[\"time\"]*1000;\nvar d_=new Date(utc);\nvar Seconds = d_.getSeconds();\n\nnode.status({fill:\"green\",shape:\"ring\",text:Seconds});\n//node.status({fill:\"green\",shape:\"ring\",text:utc});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db68abcee555062d",
+        "type": "comment",
+        "z": "fbfa534189e69947",
+        "name": "Auto Logger",
+        "info": "",
+        "x": 830,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "d0308d360c80b4a0",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "d": true,
+        "name": "Set data",
+        "func": "var now = new Date();\n\nmsg.payload = {\n    \"timestamp\" : now.getTime(),\n    \"temperature\" : msg.msg433.TEMP,\n    \"humidity\" : msg.msg433.HUM\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 720,
+        "wires": [
+            [
+                "50be857081dd6d46"
+            ]
+        ]
+    },
+    {
+        "id": "50be857081dd6d46",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Filename generator",
+        "func": "// Get the current time and convert it to text\nvar now = new Date();\nvar yyyy = now.getFullYear();\nvar mm = now.getMonth() < 9 ? \"0\" + (now.getMonth() + 1) : (now.getMonth() + 1); // getMonth() is zero-based\nvar dd  = now.getDate() < 10 ? \"0\" + now.getDate() : now.getDate();\nvar hh = now.getHours() < 10 ? \"0\" + now.getHours() : now.getHours();\nvar mmm  = now.getMinutes() < 10 ? \"0\" + now.getMinutes() : now.getMinutes();\nvar ss  = now.getSeconds() < 10 ? \"0\" + now.getSeconds() : now.getSeconds();\n\n// Generate out file name pattern\nmsg.fname = \"DTH_outside_\"+ yyyy + mm + dd + \".csv\";\n// Full filename with path for the file node later\n//msg.filename = \"/home/pi/datalog/\"+ msg.fname;\nmsg.filename = \"/data/avi/\" + msg.fname;\n\n// We save the current payload into a different place on the msg object\nmsg.filecontent = msg.payload;\n\n// We are passing the file name search pattern to fs node to tell us if the file exists or not\nmsg.payload = {\"pattern\":msg.fname};\n\nnode.status({fill:\"blue\",shape:\"ring\",text:msg.fname});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 720,
+        "wires": [
+            [
+                "8dbff0401d602fd8"
+            ]
+        ]
+    },
+    {
+        "id": "8dbff0401d602fd8",
+        "type": "fs-file-lister",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "start": "/data/avi/",
+        "pattern": "",
+        "folders": "*",
+        "hidden": true,
+        "lstype": "files",
+        "path": true,
+        "single": true,
+        "depth": 0,
+        "stat": true,
+        "showWarnings": false,
+        "x": 1000,
+        "y": 720,
+        "wires": [
+            [
+                "661da0fea3af2c9b",
+                "aeb095d827e35516"
+            ]
+        ]
+    },
+    {
+        "id": "661da0fea3af2c9b",
+        "type": "debug",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "aeb095d827e35516",
+        "type": "switch",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "property": "$count(msg.payload)",
+        "propertyType": "jsonata",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1150,
+        "y": 720,
+        "wires": [
+            [
+                "ebc7333558bf93bc"
+            ],
+            [
+                "82d87c4236ea13ea"
+            ]
+        ]
+    },
+    {
+        "id": "6a55bac2618a20de",
+        "type": "csv",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "all",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "timestamp,temperature,humidity,battery",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": false,
+        "include_null_values": false,
+        "x": 1490,
+        "y": 700,
+        "wires": [
+            [
+                "1a3edae72c3f5148"
+            ]
+        ]
+    },
+    {
+        "id": "1a3edae72c3f5148",
+        "type": "file",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "filename": "",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1670,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ae40662a3a9a3110",
+        "type": "csv",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "timestamp,temperature,humidity,battery",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": false,
+        "include_null_values": false,
+        "x": 1490,
+        "y": 740,
+        "wires": [
+            [
+                "1a3edae72c3f5148"
+            ]
+        ]
+    },
+    {
+        "id": "ebc7333558bf93bc",
+        "type": "change",
+        "z": "fbfa534189e69947",
+        "name": "Get file content",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "filecontent",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1320,
+        "y": 700,
+        "wires": [
+            [
+                "6a55bac2618a20de"
+            ]
+        ]
+    },
+    {
+        "id": "82d87c4236ea13ea",
+        "type": "change",
+        "z": "fbfa534189e69947",
+        "name": "Get file content",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "filecontent",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1320,
+        "y": 740,
+        "wires": [
+            [
+                "ae40662a3a9a3110"
+            ]
+        ]
+    },
+    {
+        "id": "d0b4d05d09e5b2dc",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "d": true,
+        "name": "Set data",
+        "func": "var now = new Date();\n\nmsg.payload= now.getTime();\n\nnode.status({fill:\"green\",shape:\"ring\",text:msg.payload});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5278e1dda2e28999",
+        "type": "influxdb out",
+        "z": "fbfa534189e69947",
+        "influxdb": "4f5b9003144b1d3d",
+        "name": "DTH_outside",
+        "measurement": "Bat",
+        "precision": "s",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 790,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "4fe713594d270291",
+        "type": "influxdb out",
+        "z": "fbfa534189e69947",
+        "influxdb": "4f5b9003144b1d3d",
+        "name": "DTH_outside",
+        "measurement": "Temp",
+        "precision": "s",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 790,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "1e57c3c4ee8a0793",
+        "type": "influxdb out",
+        "z": "fbfa534189e69947",
+        "influxdb": "4f5b9003144b1d3d",
+        "name": "DTH_outside",
+        "measurement": "Humidity",
+        "precision": "s",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 790,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "287317a610d1fc2c",
+        "type": "ui_button",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "group": "a649fab2.daf3d8",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Graph",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "show_chart",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 690,
+        "y": 940,
+        "wires": [
+            [
+                "cf14390fdb5338e6"
+            ]
+        ]
+    },
+    {
+        "id": "cf14390fdb5338e6",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Get filename",
+        "func": "// Get the filename from the flow context\nlet filename = flow.get(\"fileselected\");\n\n// check, if the filename is undefined that means it does not exist yet, nothing is selected yet\n// return: do not output anything\nif (filename===undefined) {\n    return;\n}\n\n// return the filename to the file-in node to delete\nmsg.filename = filename;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 860,
+        "y": 940,
+        "wires": [
+            [
+                "50d7f4a5e5185dc1"
+            ]
+        ]
+    },
+    {
+        "id": "50d7f4a5e5185dc1",
+        "type": "file in",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "filename": "",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "x": 1040,
+        "y": 940,
+        "wires": [
+            [
+                "fcb74224a4b2032d"
+            ]
+        ]
+    },
+    {
+        "id": "fcb74224a4b2032d",
+        "type": "csv",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "x": 1190,
+        "y": 940,
+        "wires": [
+            [
+                "b7e18ea0ad7cb769",
+                "6e515d18fd83d19a",
+                "f6e2c005f32aa48d"
+            ]
+        ]
+    },
+    {
+        "id": "b7e18ea0ad7cb769",
+        "type": "debug",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1370,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "6e515d18fd83d19a",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Format data for chart",
+        "func": "var chart = [{\n    \"series\":[\"temperature\",\"humidity\",\"battery\"],\n    \"data\":[],\n    \"labels\":[\"\"]\n}];\n\nvar temperature = [];\nvar humidity = [];\nvar battery = [];\n\nfor (var i=0; i<msg.payload.length; i++) {\n    temperature.push({\"x\":msg.payload[i].timestamp, \"y\":msg.payload[i].temperature});\n    humidity.push({\"x\":msg.payload[i].timestamp, \"y\":msg.payload[i].humidity});\n    battery.push({\"x\":msg.payload[i].timestamp, \"y\":msg.payload[i].battery});\n}\n\nchart[0].data.push(temperature);\nchart[0].data.push(humidity);\nchart[0].data.push(battery);\n\nmsg.payload = chart;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1400,
+        "y": 940,
+        "wires": [
+            [
+                "4fb71979f11a15f5"
+            ]
+        ]
+    },
+    {
+        "id": "4fb71979f11a15f5",
+        "type": "ui_chart",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "group": "a649fab2.daf3d8",
+        "order": 5,
+        "width": "18",
+        "height": "6",
+        "label": "Temperature (C) &Humidity (%)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1680,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f4326beb8bb01c8",
+        "type": "comment",
+        "z": "fbfa534189e69947",
+        "name": "Graph the data",
+        "info": "",
+        "x": 680,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "bb2e19807fd2b5b0",
+        "type": "fs-file-lister",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "start": "/data/avi/",
+        "pattern": "*.*",
+        "folders": "*",
+        "hidden": true,
+        "lstype": "files",
+        "path": true,
+        "single": true,
+        "depth": 0,
+        "stat": true,
+        "showWarnings": true,
+        "x": 900,
+        "y": 1120,
+        "wires": [
+            [
+                "fa266b05250558c6"
+            ]
+        ]
+    },
+    {
+        "id": "02ecd145078940b7",
+        "type": "ui_button",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "group": "a649fab2.daf3d8",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Refresh",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "refresh",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 720,
+        "y": 1120,
+        "wires": [
+            [
+                "bb2e19807fd2b5b0"
+            ]
+        ]
+    },
+    {
+        "id": "f0d94865e85ab38f",
+        "type": "ui_dropdown",
+        "z": "fbfa534189e69947",
+        "name": "File Selector",
+        "label": "",
+        "tooltip": "",
+        "place": "Select a file",
+        "group": "a649fab2.daf3d8",
+        "order": 2,
+        "width": "10",
+        "height": "1",
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 1350,
+        "y": 1120,
+        "wires": [
+            [
+                "e315258dc9dea191"
+            ]
+        ]
+    },
+    {
+        "id": "fa266b05250558c6",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Format data",
+        "func": "msg.options = [];\nfor (var i=0; i<msg.payload.length; i++) {\n    obj = {};\n    obj [msg.payload[i].name]=msg.payload[i].name;\n    msg.options.push(obj);\n}\nmsg.payload={};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1150,
+        "y": 1120,
+        "wires": [
+            [
+                "f0d94865e85ab38f"
+            ]
+        ]
+    },
+    {
+        "id": "e315258dc9dea191",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Save selection",
+        "func": "// Save the file name selected from the dropdown in the flow context\nflow.set(\"fileselected\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1580,
+        "y": 1120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e73854247572c87b",
+        "type": "ui_chart",
+        "z": "fbfa534189e69947",
+        "name": "",
+        "group": "a649fab2.daf3d8",
+        "order": 5,
+        "width": "18",
+        "height": "6",
+        "label": "battery (V)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1630,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f6e2c005f32aa48d",
+        "type": "function",
+        "z": "fbfa534189e69947",
+        "name": "Format data for chart",
+        "func": "var chart = [{\n    \"series\":[\"battery\"],\n    \"data\":[],\n    \"labels\":[\"\"]\n}];\n\nvar temperature = [];\nvar humidity = [];\nvar battery = [];\n\nfor (var i=0; i<msg.payload.length; i++) {\n    battery.push({\"x\":msg.payload[i].timestamp, \"y\":msg.payload[i].battery});\n}\n\nchart[0].data.push(battery);\n\nmsg.payload = chart;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1420,
+        "y": 1020,
+        "wires": [
+            [
+                "e73854247572c87b"
+            ]
+        ]
+    },
+    {
+        "id": "60e7a74225d5784a",
+        "type": "mqtt-broker",
+        "name": "Hub",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4f5b9003144b1d3d",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": "8086",
+        "protocol": "http",
+        "database": "DTH_outside",
+        "name": "influxdb_DTH_outside",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "a649fab2.daf3d8",
+        "type": "ui_group",
+        "name": "File Browser",
+        "tab": "75e4e587.f4c0ac",
+        "order": 1,
+        "disp": true,
+        "width": "18",
+        "collapse": false
+    },
+    {
+        "id": "75e4e587.f4c0ac",
+        "type": "ui_tab",
+        "name": "Files",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
